@@ -12,7 +12,7 @@ class StorecategoryRequest extends FormRequest
             'name' => ['required', 'string'],
             'discount' => ['required', 'integer', 'digits_between:1,100'],
             'parent_id' => ['required', 'exists:categories,id'],
-            'menu_id' => ['required', 'exists:menus,id'], ,
+            'menu_id' => ['required', 'exists:menus,id']
         ];
     }
 
