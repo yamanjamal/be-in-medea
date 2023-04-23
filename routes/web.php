@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -20,9 +22,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::resource('/menu', CategoryController::class);
+    Route::resource('/menu', MenuController::class);
     Route::resource('/Categories', CategoryController::class);
-    Route::resource('/item', CategoryController::class);
+    Route::resource('/item', ItemController::class);
 
     //Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
