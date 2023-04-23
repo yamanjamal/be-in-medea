@@ -1,31 +1,31 @@
 <script setup>
 import { ChevronDownIcon } from '@heroicons/vue/24/solid';
 import BorderedContainer from '@/Components/BorderedContainer.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import { defineProps, reactive, watch } from 'vue';
-import { router } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 let props = defineProps({
-    menus: Object,
+    menu: Object,
+    categories: Object,
     filters: Object,
     current_url: String,
 });
 
 let filters = reactive({ ...props.filters });
 let currentUrl = window.location.toString();
-let pagination = reactive({ ...props.menus });
+let pagination = reactive( props.categories );
 
-function deleteLobby(menu) {
-    router.delete('/menu/' + menu.id);
+function deleteLobby(category) {
+    router.delete('/categories/' + category.id);
 }
 </script>
 <template>
     <AuthenticatedLayout>
         <div>
             <div class="bg-gray-100 flex flex-row justify-around items-center ">
-                <h2 class=" font-grota text-2xl font-extrabold uppercase text-wgh-gray-6">Menus</h2>
-                <Link :href="`/menu/create`">
+                <h2 class=" font-grota text-2xl font-extrabold uppercase text-wgh-gray-6">Menu: {{menu.data.title}}</h2>
+                <Link :href="`menu/${menu.data.id}/categories/create`">
                     <button class="mx-2 bg-blue-700 py-2 px-4 rounded my-2">
                         <span class="flex flex-row space-x-2.5">
                             <span class="font-bold uppercase">Add</span>
@@ -50,20 +50,49 @@ function deleteLobby(menu) {
                                                         class="group inline-flex"
                                                         :href="currentUrl"
                                                         :data="{
-                                                            sort_by: 'title',
+                                                            sort_by: 'name',
                                                             sort_order: filters.sort_order === 'desc' ? 'asc' : 'desc',
                                                             q: filters.q,
                                                         }"
                                                     >
-                                                        Title
+                                                        Name
                                                         <span
                                                             :class="{
                                                                 'invisible ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible':
-                                                                    filters.sort_by !== 'title',
+                                                                    filters.sort_by !== 'name',
                                                                 'ml-2 flex-none rounded bg-gray-200 text-gray-900 group-hover:bg-gray-300':
-                                                                    filters.sort_by === 'title',
+                                                                    filters.sort_by === 'name',
                                                                 'rotate-180':
-                                                                    filters.sort_by === 'title' &&
+                                                                    filters.sort_by === 'name' &&
+                                                                    filters.sort_order === 'asc',
+                                                            }"
+                                                        >
+                                                            <ChevronDownIcon class="h-5 w-5" aria-hidden="true" />
+                                                        </span>
+                                                    </Link>
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                >
+                                                <Link
+                                                        class="group inline-flex"
+                                                        :href="currentUrl"
+                                                        :data="{
+                                                            sort_by: 'discount',
+                                                            sort_order: filters.sort_order === 'desc' ? 'asc' : 'desc',
+                                                            q: filters.q,
+                                                        }"
+                                                    >
+                                                        Discount
+                                                        <span
+                                                            :class="{
+                                                                'invisible ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible':
+                                                                    filters.sort_by !== 'discount',
+                                                                'ml-2 flex-none rounded bg-gray-200 text-gray-900 group-hover:bg-gray-300':
+                                                                    filters.sort_by === 'discount',
+                                                                'rotate-180':
+                                                                    filters.sort_by === 'discount' &&
                                                                     filters.sort_order === 'asc',
                                                             }"
                                                         >
@@ -80,24 +109,27 @@ function deleteLobby(menu) {
                                             </tr>
                                         </thead>
                                         <tbody class="divide-y divide-gray-200 bg-white">
-                                            <tr v-for="menu in menus.data" :key="menu.id">
+                                            <tr v-for="category in categories.data" :key="category.id">
                                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                    {{ menu.title }}
+                                                    {{ category.name }}
+                                                </td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                    {{ category.discount }}
                                                 </td>
                                                 <td
                                                     class="flex space-x-4 items-center whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                                                 >
-                                                    <Link :href="`/menu/${menu.id}/edit`">
+                                                    <Link :href="`/categories/${category.id}/edit`">
                                                         <span class="flex flex-row space-x-2.5">
                                                             <span class="font-bold uppercase">Edit</span>
                                                         </span>
                                                     </Link>
-                                                    <Link :href="`/menu/${menu.id}`">
+                                                    <Link :href="`/categories/${category.id}`">
                                                         <span class="flex flex-row space-x-2.5">
                                                             <span class="font-bold uppercase">Show</span>
                                                         </span>
                                                     </Link>
-                                                    <button @click="$event => deleteLobby(menu)" class="rounded-lg border-b-6 transition-all duration-100 active:mt-1.5 active:border-b-0">
+                                                    <button @click="$event => deleteLobby(category)" class="rounded-lg border-b-6 transition-all duration-100 active:mt-1.5 active:border-b-0">
                                                         <span class="flex flex-row space-x-2.5">
                                                             <span class="font-bold uppercase">Delete</span>
                                                         </span>

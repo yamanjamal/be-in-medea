@@ -10,9 +10,8 @@ class StorecategoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'discount' => ['required', 'integer', 'digits_between:1,100'],
-            'parent_id' => ['required', 'exists:categories,id'],
-            'menu_id' => ['required', 'exists:menus,id']
+            'discount' => ['nullable', 'integer', 'digits_between:1,100'],
+            'parent_id' => ['nullable', 'exists:categories,id'],
         ];
     }
 

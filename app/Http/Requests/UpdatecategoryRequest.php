@@ -10,7 +10,7 @@ class UpdatecategoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'discount' => ['required', 'integer', 'digits_between:1,100'],
+            'discount' => ['nullable', 'integer', 'digits_between:1,100'],
         ];
     }
 

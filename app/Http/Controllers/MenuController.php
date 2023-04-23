@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\QueryPipelines\MenuPipeline\MenuPipeline;
+use App\Http\QueryPipelines\CategoryPipeline\CategoryPipeline;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\MenuResource;
 use App\Models\Menu;
 use App\Http\Requests\StoreMenuRequest;
@@ -14,13 +15,15 @@ class MenuController extends Controller
 {
     public function index(Request $request)
     {
-        $menus = MenuPipeline::make(
-        builder: Menu::query(),
+        $menu = auth()->user()->menu()->first();
+        $categories = CategoryPipeline::make(
+        builder: $menu->Categories()->getQuery(),
         request: $request,
         )->paginate();
 
-        return Inertia::render('Menus/Menus', [
-            'menus' => MenuResource::collection($menus),
+        return Inertia::render('Categories/Categories', [
+            'menu' => new MenuResource($menu->load('Categories')),
+            'categories' => CategoryResource::collection($categories),
             'filters' => $request->only('sort_by', 'sort_order'),
         ]);
     }
