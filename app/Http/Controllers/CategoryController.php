@@ -36,7 +36,7 @@ class CategoryController extends Controller
     {
         return Inertia::render('Categories/ShowCategory', [
             'menu' => new MenuResource($menu),
-            'category' => new CategoryResource($category),
+            'category' => new CategoryResource($category->load('SubCategories')),
         ]);
     }
 

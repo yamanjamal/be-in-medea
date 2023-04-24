@@ -24,7 +24,7 @@ class Category extends Model
         return $this->belongsTo(Menu::class);
     }
 
-    public function Categories(): HasMany
+    public function SubCategories(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_id');
     }

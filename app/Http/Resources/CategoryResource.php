@@ -16,7 +16,7 @@ class CategoryResource extends JsonResource
             'discount' => $this->discount,
             'Category' => new CategoryResource($this->whenloaded('Category')),
             'Menu' => new MenuResource($this->whenloaded('Menu')),
-            'Categories' => CategoryResource::collection($this->whenloaded('Categories')),
+            'SubCategories' => CategoryResource::collection($this->whenloaded('SubCategories')),
         ];
     }
 }
