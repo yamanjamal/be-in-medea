@@ -23,7 +23,7 @@ function deleteLobby(category) {
 <template>
     <AuthenticatedLayout>
         <div>
-            <div class="bg-gray-100 flex flex-row justify-around items-center ">
+            <div class="p-2 bg-white mt-2 text-gray-900 flex flex-row justify-around items-center ">
                 <h2 class=" font-grota text-2xl font-extrabold uppercase text-wgh-gray-6">Menu: {{menu.data.title}}</h2>
                 <Link :href="`menu/${menu.data.id}/categories/create`">
                     <button class="mx-2 bg-blue-700 py-2 px-4 rounded my-2">
@@ -33,7 +33,7 @@ function deleteLobby(category) {
                     </button>
                 </Link>
             </div>
-            <BorderedContainer class="mb-2 overflow-hidden bg-wgh-gray-1.5">
+            <BorderedContainer v-if="categories.data.length > 0" class="mb-2 overflow-hidden bg-wgh-gray-1.5">
                 <div class="rounded-lg bg-white px-4 sm:px-0 lg:px-0">
                     <div class="flex flex-col">
                         <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -144,7 +144,7 @@ function deleteLobby(category) {
                     </div>
                 </div>
             </BorderedContainer>
-            <BorderedContainer class="pb-8 bg-wgh-gray-1.5 ">
+            <BorderedContainer v-if="categories.data.length > 0" class="pb-8 bg-wgh-gray-1.5 ">
                 <nav
                     class="flex w-full items-center justify-between rounded-lg border-t border-gray-200 bg-white px-4 py-3 sm:px-6"
                     aria-label="Pagination"

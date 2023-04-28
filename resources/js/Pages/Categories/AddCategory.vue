@@ -61,7 +61,6 @@ function addInput() {
                         type="discount"
                         class="mt-1 block w-full py-1 outline outline-gray-100"
                         v-model="form.discount"
-                        required
                         autocomplete="username"
                     />
 
