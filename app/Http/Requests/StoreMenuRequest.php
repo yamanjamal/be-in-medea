@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\UserDoseNotHaveMenu;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreMenuRequest extends FormRequest
@@ -9,7 +10,7 @@ class StoreMenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string'],
+            'title' => ['required', 'string', new UserDoseNotHaveMenu()],
         ];
     }
 

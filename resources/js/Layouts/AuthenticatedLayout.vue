@@ -34,9 +34,9 @@ const showingNavigationDropdown = ref(false);
                                     Dashboard
                                 </NavLink>
                             </div>
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div v-if="$page.props.auth.menu" class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('menu.index')" :active="route().current('menu.index')">
-                                    Menu
+                                    Menu 
                                 </NavLink>
                             </div>
                         </div>

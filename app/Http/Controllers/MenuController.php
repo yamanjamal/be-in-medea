@@ -35,7 +35,7 @@ class MenuController extends Controller
 
     public function store(StoreMenuRequest $request)
     {
-        $menu = Menu::create($request->validated());
+        $menu = Menu::create($request->validated() + ['user_id' => auth()->user()->id]);
         session()->flash('success', 'New menu got added successfully!');
         return redirect()->route('menu.index');
     }

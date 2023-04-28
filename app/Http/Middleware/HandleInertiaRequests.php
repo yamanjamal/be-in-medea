@@ -35,6 +35,7 @@ class HandleInertiaRequests extends Middleware
             'app_url' => config('app.url'),
             'auth' => [
                 'user' => $request->user(),
+                'menu' => $request->user() ? $request->user()->Menu()->first() : '',
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
