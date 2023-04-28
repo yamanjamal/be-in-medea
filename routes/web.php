@@ -22,7 +22,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::resource('/menu', MenuController::class)->only('index', 'create', 'store');
+    Route::resource('/menu', MenuController::class)->only('index', 'edit', 'update');
     Route::resource('menu.categories', CategoryController::class)
         ->shallow()
         ->except('index')

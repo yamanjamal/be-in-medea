@@ -8,7 +8,6 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\MenuResource;
 use App\Models\Category;
 use App\Models\Menu;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CategoryController extends Controller
