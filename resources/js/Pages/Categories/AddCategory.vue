@@ -19,19 +19,23 @@ let form = useForm({
 });
 
 let state = reactive({
-    addSubCategory : false,
     subCategories : [],
 });
 
 function submit() {
+    form.subCategories =state.subCategories
     form.post('/menu/'+ props.menu.data.id +'/categories');
 }
 
-function addInput() {
-    form.addSubCategory.push({
-        'name':'',
-        'discount':''
-    })    
+function addField() {
+    state.subCategories.push({
+        name: '',
+        discount: '',
+    })
+}
+
+function removeField(index) {
+    state.subCategories.splice(index, 1)
 }
 </script>
 <template>
@@ -39,6 +43,7 @@ function addInput() {
         <Head title="Menu Create" />
         <div class="mx-auto w-96 bg-white p-10 mt-20">
             <form @submit.prevent="submit">
+                <h2>Add Category</h2>
                 <div>
                     <InputLabel for="name" value="Name" />
 
@@ -53,7 +58,7 @@ function addInput() {
 
                     <InputError class="mt-2" :message="form.errors.name" />
                 </div>
-                <div>
+                <div class="mb-10">
                     <InputLabel for="discount" value="Discount" />
 
                     <TextInput
@@ -67,38 +72,55 @@ function addInput() {
                     <InputError class="mt-2" :message="form.errors.discount" />
                 </div>
                 <div>
-                    <div @click="addInput" class="mx-2 hover:cursor-pointer bg-blue-700 py-2 px-4 rounded my-2">
-                        <span class="flex flex-row space-x-2.5">
-                            <span class="font-bold text-center uppercase">Add SubCategory</span>
-                        </span>
+                    <h2>add SubCategories</h2>
+                    <div v-if="state.subCategories.length ==0">
+                        <div @click="addField" class="mx-2 bg-green-500 px-2 rounded hover:cursor-pointer my-2">
+                            <span class="flex flex-row space-x-2.5">
+                                <span class="font-bold text-center uppercase">add</span>
+                            </span>
+                        </div>
                     </div>
-                    <div v-for="SubCategories in state.subCategories" :key="SubCategories.id">
-                        <div>
-                            <InputLabel for="name" value="Name" />
-                            <TextInput
-                                id="name"
-                                type="name"
-                                class="mt-1 block w-full py-1 outline outline-gray-100"
-                                v-model="form.name"
-                                required
-                                autocomplete="username"
-                            />
-
-                            <InputError class="mt-2" :message="form.errors.name" />
+                </div>
+                <div>
+                    <div v-for="(field, index) in state.subCategories" :key="index" class="border border-b-blue-300">
+                        <div class="flex justify-around">
+                            <div @click="addField" class="mx-2 bg-green-500 px-2 rounded hover:cursor-pointer  my-2">
+                                <span class="flex flex-row space-x-2.5">
+                                    <span class="font-bold text-center uppercase">+</span>
+                                </span>
+                            </div>
+                            <div @click="removeField(index)" class="mx-2 bg-red-500 px-2 rounded hover:cursor-pointerrounded my-2">
+                                <span class="flex flex-row space-x-2.5">
+                                    <span class="font-bold text-center uppercase">-</span>
+                                </span>
+                            </div>
                         </div>
                         <div>
-                            <InputLabel for="discount" value="Discount" />
-
-                            <TextInput
-                                id="discount"
-                                type="discount"
-                                class="mt-1 block w-full py-1 outline outline-gray-100"
-                                v-model="form.discount"
-                                required
-                                autocomplete="username"
-                            />
-
-                            <InputError class="mt-2" :message="form.errors.discount" />
+                            <div>
+                                <InputLabel for="name" value="Name" />
+                                
+                                <TextInput
+                                    type="discount"
+                                    class="mt-1 block w-full py-1 outline outline-gray-100"
+                                    v-model="state.subCategories[index].name"
+                                    required
+                                    autocomplete="username"
+                                    />
+                                    
+                                <InputError class="mt-2" :message="form.errors.discount" />
+                            </div>
+                            <div>
+                                <InputLabel for="discount" value="Discount" />
+    
+                                <TextInput
+                                    type="discount"
+                                    class="mt-1 block w-full py-1 outline outline-gray-100"
+                                    v-model="state.subCategories[index].discount"
+                                    autocomplete="username"
+                                />
+    
+                                <InputError class="mt-2" :message="form.errors.discount" />
+                            </div>
                         </div>
                     </div>
                 </div>

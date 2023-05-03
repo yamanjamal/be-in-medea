@@ -11,7 +11,9 @@ class StorecategoryRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'discount' => ['nullable', 'integer', 'digits_between:1,100'],
-            'parent_id' => ['nullable', 'exists:categories,id'],
+            'subCategories.*.name' => ['required', 'string'],
+            'subCategories.*.discount' => ['nullable', 'integer', 'digits_between:1,100'],
+            // 'parent_id' => ['nullable', 'exists:categories,id'],
         ];
     }
 

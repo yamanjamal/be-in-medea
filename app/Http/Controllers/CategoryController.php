@@ -26,7 +26,22 @@ class CategoryController extends Controller
 
     public function store(StorecategoryRequest $request, Menu $menu)
     {
-        $menu->Categories()->create($request->validated());
+        \DB::transaction(function () use ($request, $menu) {
+            $category = $menu->Categories()->create($request->validated());
+
+            if ($request->subCategories) {
+                collect($request->subCategories)->map(function ($subCat) use ($category) {
+                    $subCat['menu_id'] = $category['menu_id'];
+                    return $subCat;
+                })->each(function ($subcat, $key) use ($category, $request) {
+                    $category->SubCategories()->create([
+                        "name" => $subcat['name'],
+                        "discount" => $subcat['discount'],
+                        "menu_id" => $category->menu_id,
+                    ]);
+                });
+            }
+        });
         session()->flash('success', 'New category added successfully!');
         return redirect()->route('menu.index');
     }
